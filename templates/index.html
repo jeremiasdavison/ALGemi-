@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Coach Financiero</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='static.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <h1>🧠 Gemini Coach Financiero</h1>
+
+    <div class="horizontal-cards">
+        <div class="section">
+            <h2>📊 Análisis</h2>
+            <pre>{{ analisis }}</pre>
+            <p class="highlight">Balance: {{ balance }}ALGO</p>
+        </div>
+
+        <div class="section">
+            <h2>📂 Transacciones</h2>
+            {% for linea in resumen %}
+                <div class="tx">{{ linea }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="section enviar">
+            <h2>🚀 Enviar ALGO</h2>
+            <form id="send-form" onsubmit="sendAlgo(event)">
+                <label for="destino">Destino:</label><br>
+                <input type="text" id="destino" name="destino" required><br><br>
+
+                <label for="monto">Monto (ALGO):</label><br>
+                <input type="number" id="monto" name="monto" step="0.000001" min="0" required><br><br>
+
+                <button type="submit">Enviar ALGO</button>
+                <p id="confirmacion" class="highlight"></p>
+            </form>
+        </div>
+
+
+    </div>
+
+    <!-- Chat interactivo -->
+    <div id="chat-container" class="section" style="margin-top: 30px; max-width: 800px; width: 100%;">
+        <h2>🧠 Ask Gemini</h2>
+    </div>
+    <input id="user-input" type="text" placeholder="Escribe tu pregunta..."
+        onkeydown="if(event.key==='Enter') sendMessage()"
+        style="margin-top:10px; padding:10px; width: 100%; max-width: 800px; border-radius: 10px; border: none; font-family: 'JetBrains Mono'; background-color: #0d1117; color: white;">
+
+
+
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById("user-input");
+            const message = input.value.trim();
+            if (!message) return;
+
+            const container = document.getElementById("chat-container");
+
+            const userMsg = document.createElement("div");
+            userMsg.className = "message user";
+            userMsg.textContent = message;
+            container.appendChild(userMsg);
+            input.value = "";
+            container.scrollTop = container.scrollHeight;
+
+            const res = await fetch("/gemini-chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user_input: message })
+            });
+
+            const data = await res.json();
+            const reply = data.reply;
+
+            const botMsg = document.createElement("div");
+            botMsg.className = "message gemini";
+            botMsg.textContent = reply;
+            container.appendChild(botMsg);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        async function sendAlgo(event) {
+            event.preventDefault();
+            const destino = document.getElementById("destino");
+            const monto = document.getElementById("monto");
+            const confirmacion = document.getElementById("confirmacion");
+
+            const res = await fetch("/enviar-algo", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    destino: destino.value.trim(),
+                    monto: parseFloat(monto.value)
+                })
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                confirmacion.innerHTML = `
+            ✅ Transacción enviada.<br>
+            Fee estimado: ${data.fee} ALGO.<br>
+            <a href="${data.explorer}" target="_blank" style="color: #3fb950; text-decoration: underline;">
+                Ver en AlgoExplorer
+            </a>`;
+
+                // Limpiar campos
+                destino.value = "";
+                monto.value = "";
+
+                // Limpiar mensaje después de 6 segundos
+                setTimeout(() => {
+                    confirmacion.innerHTML = "";
+                }, 10000);
+            } else {
+                confirmacion.textContent = `❌ Error: ${data.error}`;
+                setTimeout(() => {
+                    confirmacion.textContent = "";
+                }, 6000);
+            }
+        }
+
+        function actualizarEstado() {
+            fetch("/api/estado")
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("balance").textContent = `${data.balance} ALGO`;
+
+                    const resumenDiv = document.getElementById("resumen");
+                    resumenDiv.innerHTML = "";
+                    data.resumen.forEach(linea => {
+                        const tx = document.createElement("div");
+                        tx.className = "tx";
+                        tx.textContent = linea;
+                        resumenDiv.appendChild(tx);
+                    });
+                });
+        }
+
+        // 🔁 Cada 2 minutos (120000 ms)
+        setInterval(actualizarEstado, 120000);
+
+    </script>
+</body>
+
+</html>

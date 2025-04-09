@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+*.pkl
+*.json
+*.csv
+.env
+key.env
+
+

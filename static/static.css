@@ -1,0 +1,150 @@
+body {
+    background-color: #0d1117;
+    color: #c9d1d9;
+    font-family: 'JetBrains Mono', monospace;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: #58a6ff;
+    margin-bottom: 20px;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.section {
+    background-color: #161b22;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(88, 166, 255, 0.2);
+    overflow-wrap: break-word;
+    word-break: break-word;
+    height: auto;
+}
+
+h2 {
+    color: #2f81f7;
+    margin-top: 0;
+    font-size: 1.2em;
+}
+
+.highlight {
+    color: #3fb950;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.tx {
+    border-bottom: 1px solid #30363d;
+    padding: 4px 0;
+    font-size: 0.9em;
+}
+
+pre {
+    white-space: pre-wrap;
+    font-size: 0.9em;
+}
+
+.message {
+    margin: 6px 0;
+    padding: 6px 12px;
+    border-radius: 12px;
+    max-width: 90%;
+    word-wrap: break-word;
+}
+
+.message.user {
+    background-color: #1f2937;
+    color: #fff;
+    align-self: flex-end;
+}
+
+.message.gemini {
+    background-color: #6b21a8;
+    color: #fff;
+    align-self: flex-start;
+}
+
+#chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 300px; /* o el alto que prefieras */
+    overflow-y: auto;
+    background-color: #161b22;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 0 10px rgba(107, 33, 168, 0.4);
+    margin-bottom: 10px;
+}
+
+.horizontal-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+}
+
+/* Consejo Gemini con scroll */
+.section.consejo {
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #58a6ff #161b22;
+}
+
+.section.consejo::-webkit-scrollbar {
+    width: 8px;
+}
+.section.consejo::-webkit-scrollbar-track {
+    background: #161b22;
+}
+.section.consejo::-webkit-scrollbar-thumb {
+    background-color: #58a6ff;
+    border-radius: 10px;
+}
+
+/* Opcional: ajustar tamaño de h2 y padding si es necesario */
+.section h2 {
+    font-size: 1em;
+}
+
+
+.enviar input, .enviar button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 6px;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.enviar input {
+    background-color: #0d1117;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+}
+
+.enviar button {
+    background-color: #238636;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.enviar button:hover {
+    background-color: #2ea043;
+}
