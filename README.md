@@ -16,7 +16,6 @@ ALGemi es una aplicación que proporciona análisis financiero y asesoramiento u
 ├── main.py  # Configuración de Algorand
 ├── models.py # Configuración de Algorand, Gemini, análisis de transacciones y generación de análisis con Gemini
 ├── README.md
-├── versionWithInput.py # Interacción con el usuario, análisis y generación de prompts para Gemini
 └── .git/
 ```
 
@@ -47,7 +46,6 @@ ALGemi is an application that provides financial analysis and advice using the G
 ├── main.py  # Algorand configuration
 ├── models.py # Algorand and Gemini configuration, transaction analysis, and analysis generation with Gemini
 ├── README.md
-├── versionWithInput.py # User interaction, analysis, and prompt generation for Gemini
 └── .git/
 ```
 
