@@ -42,10 +42,6 @@ Gemi Coach Financiero/
 - **Generación de análisis con Gemini:** Se utiliza la API de Gemini para generar el análisis financiero.
 
 
-## Créditos
-
-(Agregar información del autor si aplica)
-
 ## Licencia
 
 MIT License
@@ -101,10 +97,6 @@ Gemi Financial Coach/
 - **Transaction Analysis:** The code retrieves, classifies, and analyzes transactions.
 - **Gemini Analysis Generation:** The Gemini API is used to generate financial analysis.
 
-
-## Credits
-
-(Add author information if applicable)
 
 ## License
 
